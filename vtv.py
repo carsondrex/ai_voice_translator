@@ -3,6 +3,7 @@ import assemblyai as aai #assembly api for getting transcript from audio
 from translate import Translator #python tool for translating text
 #from elevenlabs import VoiceSettings
 #from elevenlabs.client import ElevenLabs
+import os
 from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
@@ -10,6 +11,9 @@ import uuid
 from pathlib import Path
 
 load_dotenv()
+ASSEMBLY_API_KEY = os.getenv('ASSEMBLY_API_KEY')
+ELEVEN_LABS_API_KEY = os.getenv('ELEVEN_LABS_API_KEY')
+
 
 def voice_to_voice(audio_file):
     #transcribe audio
@@ -34,7 +38,7 @@ def voice_to_voice(audio_file):
 
 
 def audio_transcription(audio_file):
-    aai.settings.api_key = "5f7b181081ff481892b4ba7bd348d96d"
+    aai.settings.api_key = ASSEMBLY_API_KEY
 
     transcriber = aai.Transcriber()
     transcription = transcriber.transcribe(audio_file)
@@ -55,7 +59,7 @@ def text_translation(text):
 
 def text_to_speech(text):
     client = ElevenLabs(
-        api_key="sk_a8f1408cdfdac8a63d111a00f7c01b9b2f2e8f7cfc94568a"
+        api_key=ELEVEN_LABS_API_KEY
     )
     audio = client.text_to_speech.convert(
         text=text,
